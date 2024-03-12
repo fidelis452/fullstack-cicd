@@ -1,0 +1,45 @@
+https://gcore.com/learning/how-to-set-up-jenkins-on-kubernetes/
+
+set up jenkins
+   Docker
+   Kubernetes cluster ( create a cluster with minikube)
+   Helm CLI
+
+
+
+choco install minikube
+minikube start
+minikube status
+minikube dashboard
+
+
+Getting Set Up for Jenkins
+         Create a namespace that allows you to segregate Jenkins objects within the Kubernetes cluster.
+
+            kubectl apply -f jenkins-namespace.yaml
+
+         Create a PersistentVolume to store your Jenkins data. This will preserve data across restarts.
+
+            kubectl apply -f jenkins-volume.yaml
+
+install jenkins
+
+  storageClass: jenkins-pv
+
+
+helm repo add stable https://charts.helm.sh/stable
+helm install jenkins -f values.yaml stable/jenkins --namespace jenkinskubectl get pods --namespace=jenkins
+
+
+kubectl get ingress -n jenkins
+kubectl get svc jenkins -n jenkins
+kubectl get pods -n jenkins
+
+minikube service jenkins -n jenkins
+
+
+ng build --configuration production
+
+
+docker tag angular-app fideliswaweu19/angular-app
+docker push fideliswaweu19/angular-app:latest
