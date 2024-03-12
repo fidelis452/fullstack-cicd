@@ -1,19 +1,11 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: e2e-test-app
-  labels:
-    app: e2e-test-app
+  name: e2e-test-app-job
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: e2e-test-app
   template:
     metadata:
-      name: e2e-test-app
-      labels:
-        app: e2e-test-app
+      name: e2e-test-app-pod
     spec:
       containers:
         - name: e2e-test-app
@@ -21,17 +13,44 @@ spec:
           ports:
             - containerPort: 80
           imagePullPolicy: IfNotPresent
-      restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: e2e-test-app
-spec:
-  selector:
-    app: e2e-test-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: NodePort
+      restartPolicy: Never
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: e2e-test-app
+#   labels:
+#     app: e2e-test-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: e2e-test-app
+#   template:
+#     metadata:
+#       name: e2e-test-app
+#       labels:
+#         app: e2e-test-app
+#     spec:
+#       containers:
+#         - name: e2e-test-app
+#           image: fideliswaweu19/cypress-test
+#           ports:
+#             - containerPort: 80
+#           imagePullPolicy: IfNotPresent
+#       restartPolicy: Never
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: e2e-test-app
+# spec:
+#   selector:
+#     app: e2e-test-app
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 80
+#   type: NodePort
