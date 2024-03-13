@@ -1,21 +1,39 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: e2e-test-app-job
+  name: e2e-cypress-test
 spec:
   template:
     metadata:
-      name: e2e-test-app-pod
+      name: cypress-job
     spec:
       containers:
-        - name: e2e-test-app
+        - name: cypress-app
           image: fideliswaweu19/cypress-test
+          volumeMounts: 
+          - name: cypress-report-volume
+            mountPath: /app/cypress/reports
           ports:
             - containerPort: 80
           imagePullPolicy: IfNotPresent
+      volumes: 
+      - name: cypress-report-volume
+        persistentVolumeClaim:
+          claimName: cypress-reports
       restartPolicy: Never
 
+---
 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cypress-reports
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 
 # apiVersion: apps/v1
 # kind: Deployment
